@@ -1,0 +1,27 @@
+import os
+import pandas as pd
+import tkinter as tk
+import tkinter.ttk as ttk
+from tkinter import filedialog
+from tkinter import messagebox
+
+root = tk.Tk()
+root.geometry("640x170")
+
+def select_folder():
+    folder_path = filedialog.askdirectory()
+    filenames = os.listdir(folder_path)
+    df = pd.DataFrame({'Nome do arquivo': filenames})
+    df.to_excel(os.path.join(folder_path, 'nomes_arquivos.xlsx'), index=False)
+    messagebox.showinfo("Resultado", "Arquivo gerado com sucesso!", parent=root, type="ok", icon="info")
+
+frame = ttk.Frame(root)
+frame.pack()
+
+description = ttk.Label(frame, text="Este programa irá extrair todos os nomes de arquivos de uma pasta e salvar em um arquivo .xlsx.")
+description.pack()
+
+select_folder_button = ttk.Button(frame, text="Selecionar pasta", command=select_folder)
+select_folder_button.pack()
+
+root.mainloop()
